@@ -221,6 +221,17 @@ async def query(
         tool_use_blocks = [b for b in assistant_content if isinstance(b, ToolUseBlock)]
 
         if not tool_use_blocks:
+            from ..utils.paths import get_harness_root
+            harness_root = get_harness_root(cwd)
+            exit_error = None
+            if harness_root:
+                from ..state.task_store import check_exit_gate
+                exit_error = await check_exit_gate(str(harness_root))
+                
+            if exit_error:
+                current_messages.append({"role": "user", "content": exit_error})
+                continue
+
             duration_ms = int((time.monotonic() - start_time) * 1000)
             yield {
                 "type": "result",

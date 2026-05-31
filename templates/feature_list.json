@@ -1,0 +1,71 @@
+{
+  "project": "replace-with-project-name",
+  "last_updated": "YYYY-MM-DD",
+  "_comment": "Each feature carries the triple: behavior (machine spec) + verification (how to confirm) + status. Prefer an executable verification_command for pass-state gating; keep human verification steps for GUI/manual flows. Harness gate: if Verified Completion Rate (passing / activated) < 1.0, do not activate new features.",
+  "rules": {
+    "single_active_feature": true,
+    "passing_requires_evidence": true,
+    "do_not_skip_verification": true,
+    "states_changed_by_harness_only": true
+  },
+  "status_legend": {
+    "not_started": "Work has not begun.",
+    "in_progress": "The single current active task.",
+    "blocked": "Work cannot continue until a documented blocker is resolved.",
+    "passing": "Required verification has passed and evidence is recorded."
+  },
+  "features": [
+    {
+      "id": "chat-001",
+      "priority": 1,
+      "area": "chat",
+      "title": "Create a new conversation",
+      "user_visible_behavior": "A user can click New Chat and see a fresh empty conversation.",
+      "behavior": "Creating a conversation yields a new empty thread selected in the UI and persisted in state.",
+      "status": "not_started",
+      "verification_command": "",
+      "verification": [
+        "Open the app.",
+        "Click New Chat.",
+        "Verify a new conversation appears in the sidebar.",
+        "Verify the main panel shows an empty conversation state."
+      ],
+      "evidence": [],
+      "notes": "GUI flow — verification_command may stay empty; use manual verification steps."
+    },
+    {
+      "id": "api-001",
+      "priority": 2,
+      "area": "api",
+      "title": "Add item to cart",
+      "user_visible_behavior": "A user can add an item and see it in the cart.",
+      "behavior": "POST /cart/items with {product_id, quantity} returns 201.",
+      "status": "not_started",
+      "verification_command": "curl -X POST http://localhost:3000/api/cart/items -H 'Content-Type: application/json' -d '{\"product_id\":1,\"quantity\":2}' | jq '.status == 201'",
+      "verification": [
+        "Start the server.",
+        "Run the verification_command.",
+        "Confirm it prints true (HTTP 201)."
+      ],
+      "evidence": [],
+      "notes": "Backend flow — prefer the executable verification_command for pass-state gating."
+    },
+    {
+      "id": "chat-003",
+      "priority": 3,
+      "area": "chat",
+      "title": "Persist the active conversation list",
+      "user_visible_behavior": "A user sees previously created conversations after restarting the app.",
+      "behavior": "Conversations persist across an app restart and reload from storage on startup.",
+      "status": "not_started",
+      "verification_command": "",
+      "verification": [
+        "Create two conversations.",
+        "Restart the app.",
+        "Verify both conversations still appear in the sidebar."
+      ],
+      "evidence": [],
+      "notes": ""
+    }
+  ]
+}

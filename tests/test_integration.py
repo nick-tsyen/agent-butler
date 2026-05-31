@@ -75,6 +75,9 @@ class TestTaskStoreIntegration:
     @pytest.mark.asyncio
     async def test_full_task_lifecycle(self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
         monkeypatch.setattr("agent_butler.utils.paths.get_tasks_root", lambda: str(tmp_path / "tasks"))
+        import agent_butler.state.task_store
+        monkeypatch.setattr("agent_butler.state.task_store.get_tasks_root", lambda: str(tmp_path / "tasks"))
+        monkeypatch.setattr("agent_butler.state.task_store._get_harness_feature_list_path", lambda: None)
 
         from agent_butler.state.task_store import (
             block_task,

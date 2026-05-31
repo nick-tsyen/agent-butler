@@ -87,7 +87,10 @@ class TaskUpdateTool(Tool):
             updated_fields.append("metadata")
 
         if updates:
-            await update_task(task_list_id, task_id, updates)
+            try:
+                await update_task(task_list_id, task_id, updates)
+            except ValueError as exc:
+                return ToolResult(content=f"Error: {exc}", is_error=True)
 
         add_blocks = input_data.get("addBlocks")
         if isinstance(add_blocks, list):

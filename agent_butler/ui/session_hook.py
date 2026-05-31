@@ -223,6 +223,18 @@ class SessionController:
                     total_input=self._state.total_usage.input_tokens,
                     total_output=self._state.total_usage.output_tokens,
                 )
+
+                from ..utils.paths import get_harness_root
+                harness_root = get_harness_root(self._cwd)
+                exit_error = None
+                if harness_root:
+                    from ..state.task_store import check_exit_gate
+                    exit_error = await check_exit_gate(str(harness_root))
+
+                if exit_error:
+                    self._state.messages.append(UserMessage(content=exit_error))
+                    continue
+
                 yield UITurnComplete(reason="end_turn", turn_count=turn + 1)
                 return
 
