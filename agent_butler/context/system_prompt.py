@@ -2,16 +2,29 @@ from __future__ import annotations
 
 import os
 import platform
+import re
 import subprocess
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any
 
 from .claude_md import load_claude_md
+from agent_butler.utils.paths import get_harness_root
 
 SYSTEM_PROMPT_STATIC_START = "<SYSTEM_STATIC_CONTEXT>"
 SYSTEM_PROMPT_STATIC_END = "</SYSTEM_STATIC_CONTEXT>"
 SYSTEM_PROMPT_DYNAMIC_START = "<SYSTEM_DYNAMIC_CONTEXT>"
 SYSTEM_PROMPT_DYNAMIC_END = "</SYSTEM_DYNAMIC_CONTEXT>"
+
+
+def _read_clean_file(path: Path) -> str | None:
+    if not path.is_file():
+        return None
+    try:
+        raw = path.read_text(encoding="utf-8")
+        return re.sub(r"<!--[\s\S]*?-->", "", raw).strip()
+    except Exception:
+        return None
 
 
 def _get_static_prompt_sections() -> list[str]:
@@ -92,7 +105,7 @@ def build_system_prompt(
     tools: list,
     skills: list,
     agents: list,
-) -> str:
+ ) -> str:
     environment_context = _get_runtime_environment_context(cwd)
     agent_md_context = load_claude_md(cwd)
 
@@ -117,6 +130,26 @@ def build_system_prompt(
     if tools:
         tool_names = [t.get("name", str(t)) if isinstance(t, dict) else str(t) for t in tools]
         dynamic_parts.append(f"Available tools: {', '.join(tool_names)}")
+
+    harness_root = get_harness_root(cwd)
+    if harness_root:
+        claude_content = _read_clean_file(harness_root / "CLAUDE.md")
+        if claude_content:
+            dynamic_parts.append(f"Harness Rules (CLAUDE.md):\n{claude_content}")
+
+        decisions_content = _read_clean_file(harness_root / "decisions.md")
+        if decisions_content:
+            dynamic_parts.append(f"Harness Decisions (decisions.md):\n{decisions_content}")
+
+        progress_content = _read_clean_file(harness_root / "claude-progress.md")
+        if progress_content:
+            dynamic_parts.append(f"Harness Progress (claude-progress.md):\n{progress_content}")
+
+        if not (harness_root / "READY.md").is_file():
+            dynamic_parts.append(
+                "[CRITICAL CONSTRAINT] READY.md was not found in the harness root. "
+                "You must initialize the workspace or project before starting development."
+            )
 
     dynamic_parts.append(SYSTEM_PROMPT_DYNAMIC_END)
 
