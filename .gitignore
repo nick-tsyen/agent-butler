@@ -9,3 +9,5 @@ dist/
 .reports
 *.pyc
 references
+.understand-anything
+.worktrees/
