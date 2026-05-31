@@ -101,3 +101,21 @@ async def test_task_store_feature_list_redirection():
             assert updated_data["features"][1]["status"] == "passing"
         finally:
             os.chdir(orig_cwd)
+
+
+from agent_butler.state.task_store import check_exit_gate
+
+@pytest.mark.asyncio
+async def test_exit_gate_verification_fail():
+    with tempfile.TemporaryDirectory() as tmpdir:
+        tmp_path = Path(tmpdir).resolve()
+        (tmp_path / "CLAUDE.md").write_text("Full verify: <exit 1>")
+        (tmp_path / "feature_list.json").write_text(json.dumps({
+            "features": [{"id": "f1", "status": "passing"}]
+        }))
+        
+        # Running check_exit_gate should capture verification failure
+        err = await check_exit_gate(str(tmp_path))
+        assert err is not None
+        assert "Exit gate failed" in err
+

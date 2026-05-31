@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
@@ -399,3 +400,59 @@ async def block_task(list_id: str, blocker_id: str, blocked_id: str) -> bool:
 
     _notify_task_change(list_id)
     return True
+
+
+async def check_exit_gate(harness_root: str) -> str | None:
+    feature_list_path = Path(harness_root) / "feature_list.json"
+    if not feature_list_path.is_file():
+        return None
+    try:
+        data = json.loads(feature_list_path.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+        
+    # Check if any feature status is 'passing'
+    has_passing = any(f.get("status") == "passing" for f in data.get("features", []))
+    if not has_passing:
+        return None
+        
+    # Resolve verification command from CLAUDE.md / AGENTS.md
+    rules_path = Path(harness_root) / "CLAUDE.md"
+    if not rules_path.is_file():
+        rules_path = Path(harness_root) / "AGENTS.md"
+        
+    cmd = None
+    if rules_path.is_file():
+        text = rules_path.read_text(encoding="utf-8")
+        m = re.search(r"Full verify:\s*`([^`]+)`", text)
+        if not m:
+            m = re.search(r"Full verification:\s*`([^`]+)`", text)
+        if not m:
+            m = re.search(r"Full verify:\s*<([^>]+)>", text)
+        if not m:
+            m = re.search(r"Full verification:\s*<([^>]+)>", text)
+        if m:
+            cmd = m.group(1).strip()
+            
+    if not cmd:
+        for f in data.get("features", []):
+            if f.get("status") == "passing" and f.get("verification_command"):
+                cmd = f.get("verification_command")
+                break
+                
+    if cmd:
+        import subprocess
+        try:
+            res = subprocess.run(cmd, shell=True, cwd=harness_root, capture_output=True, text=True)
+            if res.returncode != 0:
+                return (
+                    f"[SYSTEM NOTICE] Exit gate failed. The verification command `{cmd}` failed with exit code {res.returncode}.\n"
+                    f"Stdout:\n{res.stdout}\n"
+                    f"Stderr:\n{res.stderr}\n"
+                    f"You must fix the code, run verification, and record the output before declaring victory."
+                )
+        except Exception as e:
+            return f"[SYSTEM NOTICE] Exit gate check failed while running verification command `{cmd}`: {e}"
+            
+    return None
+
