@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>08 · Initialization Deliverables</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <style>
+    .content {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 32px;
+      align-items: start;
+    }
+    .artifact-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .artifact {
+      display: flex;
+      gap: 14px;
+      align-items: baseline;
+      font-size: 22px;
+    }
+    .artifact-num {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      min-width: 24px;
+    }
+    .artifact-name {
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .artifact-desc {
+      color: var(--muted);
+    }
+    .four-cond {
+      margin-top: 22px;
+      padding: 16px 20px;
+      border-radius: 14px;
+      border: 1px solid rgba(37, 95, 133, 0.35);
+      background: rgba(37, 95, 133, 0.06);
+      font-size: 21px;
+      line-height: 1.55;
+    }
+    .four-cond strong {
+      display: block;
+      font-size: 17px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #255F85;
+      margin-bottom: 8px;
+    }
+    .codeblock {
+      background: #0A192F;
+      color: #AECDE0;
+      border-radius: 14px;
+      padding: 20px 22px;
+      font-family: "IBM Plex Mono", "JetBrains Mono", "Fira Code", monospace;
+      font-size: 18px;
+      line-height: 1.65;
+    }
+    .codeblock .comment { color: rgba(174, 205, 224, 0.45); }
+    .codeblock .head { color: #FDFBF7; font-weight: 700; }
+    .codeblock .cmd { color: #7DD3B0; }
+    .codeblock .tick { color: #5CB87A; }
+  </style>
+</head>
+<body>
+  <div class="slide">
+    <div>
+      <div class="eyebrow">Practice</div>
+      <h2>Initialization Deliverables</h2>
+    </div>
+
+    <div class="content">
+      <div>
+        <div class="artifact-list">
+          <div class="artifact">
+            <span class="artifact-num">01</span>
+            <div><span class="artifact-name">Runnable environment</span> <span class="artifact-desc">— deps installed, locked, building cleanly</span></div>
+          </div>
+          <div class="artifact">
+            <span class="artifact-num">02</span>
+            <div><span class="artifact-name">Verifiable test framework</span> <span class="artifact-desc">— at least one baseline test passes</span></div>
+          </div>
+          <div class="artifact">
+            <span class="artifact-num">03</span>
+            <div><span class="artifact-name">READY.md checklist</span> <span class="artifact-desc">— exact commands to start, test, verify</span></div>
+          </div>
+          <div class="artifact">
+            <span class="artifact-num">04</span>
+            <div><span class="artifact-name">Ordered task breakdown</span> <span class="artifact-desc">— each task has acceptance criteria</span></div>
+          </div>
+          <div class="artifact">
+            <span class="artifact-num">05</span>
+            <div><span class="artifact-name">Clean git checkpoint</span> <span class="artifact-desc">— committed baseline for all future sessions</span></div>
+          </div>
+        </div>
+        <div class="four-cond">
+          <strong>Four-Condition Rule</strong>
+          Can it <b>start</b>? &nbsp;·&nbsp; Can it <b>test</b>? &nbsp;·&nbsp; Can it <b>see progress</b>? &nbsp;·&nbsp; Can it <b>pick up next steps</b>?
+        </div>
+      </div>
+
+      <div class="codeblock">
+        <div class="head"># READY.md</div>
+        <div>&nbsp;</div>
+        <div class="comment">## Start Commands</div>
+        <div><span class="cmd">make setup</span>   <span class="comment"># install deps</span></div>
+        <div><span class="cmd">make dev</span>     <span class="comment"># start server</span></div>
+        <div><span class="cmd">make test</span>    <span class="comment"># run tests</span></div>
+        <div><span class="cmd">make check</span>   <span class="comment"># full verify</span></div>
+        <div>&nbsp;</div>
+        <div class="comment">## Current State</div>
+        <div><span class="tick">✓</span> Dependencies locked</div>
+        <div><span class="tick">✓</span> Test framework configured</div>
+        <div><span class="tick">✓</span> Baseline test passing (1/1)</div>
+        <div><span class="tick">✓</span> Lint rules configured</div>
+        <div>&nbsp;</div>
+        <div class="comment">## Next</div>
+        <div>→ See TASKS.md, Task 1</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>Agent Harness: Key Takeaways</span>
+      <span>08</span>
+    </div>
+  </div>
+</body>
+</html>

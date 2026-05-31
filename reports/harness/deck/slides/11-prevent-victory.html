@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>11 · Prevent Premature Victory</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<style>
+.content {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 32px;
+  align-items: start;
+}
+.callout-warning p {
+  font-size: 24px;
+  line-height: 1.45;
+}
+.diagram-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.diagram-stack .gate {
+  border: 1px solid var(--line);
+  background: var(--soft);
+  border-radius: 14px;
+  padding: 16px 20px;
+  font-size: 24px;
+  font-weight: 600;
+}
+.diagram-stack .arrow {
+  text-align: center;
+  color: var(--muted);
+  font-size: 26px;
+}
+.diagram-note {
+  font-size: 22px;
+  color: var(--muted);
+  margin-top: 14px;
+}
+</style>
+</head>
+<body>
+  <div class="slide">
+    <div>
+      <div class="eyebrow">Termination discipline</div>
+      <h2>Prevent Premature Victory</h2>
+    </div>
+
+    <div class="content">
+      <div>
+        <ul>
+          <li>Externalize the definition of done into executable checks.</li>
+          <li>Use a three-layer gate: static analysis → runtime verification → system-level confirmation.</li>
+          <li>Separate worker and checker so completion is harness‑verified, not self‑reported.</li>
+        </ul>
+        <div class="callout-warning" style="margin-top: 22px;">
+          <p><strong>⚠️ Overconfidence is systematic.</strong> Modern models report higher confidence than their actual accuracy, so the harness must override subjective “done.”</p>
+        </div>
+      </div>
+
+      <div class="diagram">
+        <div class="diagram-stack">
+          <div class="gate">Layer 1 · Static checks</div>
+          <div class="arrow">↓</div>
+          <div class="gate">Layer 2 · Runtime behavior</div>
+          <div class="arrow">↓</div>
+          <div class="gate">Layer 3 · System confirmation</div>
+        </div>
+        <div class="diagram-note">Completion only after all three gates pass.</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>Agent Harness</span>
+      <span>11</span>
+    </div>
+  </div>
+</body>
+</html>

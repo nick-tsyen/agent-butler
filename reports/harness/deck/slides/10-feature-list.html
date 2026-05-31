@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>10 · Feature List as Harness Primitive</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <style>
+    .content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+    .callout-tip p {
+      font-size: 23px;
+      line-height: 1.5;
+    }
+    .triple {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .triple-item {
+      flex: 1;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 14px;
+      text-align: center;
+      background: var(--soft);
+      font-size: 21px;
+    }
+    .triple-item strong {
+      display: block;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .state-machine {
+      margin-top: 0;
+    }
+    .codeblock {
+      background: #0A192F;
+      color: #AECDE0;
+      border-radius: 14px;
+      padding: 18px 20px;
+      font-family: "IBM Plex Mono", "JetBrains Mono", "Fira Code", monospace;
+      font-size: 17px;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .codeblock .key { color: #7DD3B0; }
+    .codeblock .val { color: #FFC57A; }
+    .codeblock .state-active { color: #5CB87A; font-weight: 700; }
+    .states {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .state-node {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 11px 14px;
+      font-size: 20px;
+      background: var(--soft);
+    }
+    .state-node .state-tag {
+      display: inline-block;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-bottom: 4px;
+    }
+    .tag-ns { background: rgba(10,25,47,0.08); color: var(--muted); }
+    .tag-ac { background: rgba(37,95,133,0.15); color: #255F85; }
+    .tag-bl { background: rgba(192,50,33,0.1); color: #C03221; }
+    .tag-pa { background: rgba(92,184,122,0.15); color: #2E7D47; }
+    .state-desc { font-size: 18px; color: var(--muted); }
+    .pass-gating {
+      margin-top: 10px;
+      font-size: 18px;
+      color: var(--muted);
+      padding: 10px 14px;
+      border: 1px dashed var(--line);
+      border-radius: 10px;
+      line-height: 1.5;
+    }
+    .pass-gating strong { color: var(--ink); }
+  </style>
+</head>
+<body>
+  <div class="slide">
+    <div>
+      <div class="eyebrow">Practice · 💡 Scope surface</div>
+      <h2>Feature List as Harness Primitive</h2>
+    </div>
+
+    <div class="content">
+      <div>
+        <ul>
+          <li>The feature list is <strong>machine-readable infrastructure</strong> — scheduler, verifier, and handoff reporter all depend on it.</li>
+          <li>Every entry must have the <strong>triple structure</strong>: behavior + verification command + current state.</li>
+          <li>State transitions are <strong>controlled by the harness</strong>, never by the agent directly.</li>
+        </ul>
+        <div class="triple">
+          <div class="triple-item">
+            <strong>Behavior</strong>
+            What it does<br>end-to-end
+          </div>
+          <div class="triple-item">
+            <strong>Verification</strong>
+            Exact CLI<br>command
+          </div>
+          <div class="triple-item">
+            <strong>State</strong>
+            Machine-<br>readable
+          </div>
+        </div>
+
+        <div class="callout-tip" style="margin-top:18px;">
+          <p>Documents are for humans to read; primitives are for systems to execute. Documents can be ignored — <strong>primitives can't be bypassed.</strong></p>
+        </div>
+      </div>
+
+      <div>
+        <div class="codeblock">
+{<br>
+&nbsp;&nbsp;<span class="key">"id"</span>: <span class="val">"F03"</span>,<br>
+&nbsp;&nbsp;<span class="key">"behavior"</span>: <span class="val">"POST /cart/items → 201"</span>,<br>
+&nbsp;&nbsp;<span class="key">"verification"</span>: <span class="val">"make test:F03"</span>,<br>
+&nbsp;&nbsp;<span class="key">"state"</span>: <span class="state-active">"active"</span>,<br>
+&nbsp;&nbsp;<span class="key">"evidence"</span>: <span class="val">""</span><br>
+}
+        </div>
+
+        <div class="states">
+          <div class="state-node">
+            <div class="state-tag tag-ns">not_started</div>
+            <div class="state-desc">Waiting in queue</div>
+          </div>
+          <div class="state-node">
+            <div class="state-tag tag-ac">active</div>
+            <div class="state-desc">One task only</div>
+          </div>
+          <div class="state-node">
+            <div class="state-tag tag-bl">blocked</div>
+            <div class="state-desc">Dependency unmet</div>
+          </div>
+          <div class="state-node">
+            <div class="state-tag tag-pa">passing</div>
+            <div class="state-desc">Harness-verified ✓</div>
+          </div>
+        </div>
+        <div class="pass-gating"><strong>Pass-state gating:</strong> only the harness promotes <code>active → passing</code> after the verification command exits 0.</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>Agent Harness: Key Takeaways</span>
+      <span>10</span>
+    </div>
+  </div>
+</body>
+</html>

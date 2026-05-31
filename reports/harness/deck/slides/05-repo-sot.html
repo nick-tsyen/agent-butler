@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Repo as Single Source of Truth</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <style>
+    .graph {
+      display: grid;
+      gap: 14px;
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 1.1fr 1.2fr;
+      gap: 16px;
+      align-items: center;
+    }
+    .node {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px 16px;
+      background: var(--soft);
+      font-size: 22px;
+    }
+    .node strong {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+    .node.muted {
+      background: #fff;
+    }
+    .result {
+      margin-top: 10px;
+      padding: 16px;
+      border-radius: 16px;
+      border: 1px dashed var(--line);
+      font-size: 22px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide">
+    <div class="eyebrow">Concept</div>
+    <h2>Repo = Single Source of Truth</h2>
+    <div class="grid-2">
+      <div>
+        <ul>
+          <li>Run the Fresh Session Test: 5 questions every new agent must answer.</li>
+          <li>Each answer maps to a file in the repo.</li>
+          <li>Missing answers create a knowledge visibility gap.</li>
+        </ul>
+      </div>
+      <div class="diagram">
+        <div class="graph">
+          <div class="row">
+            <div class="node"><strong>Q1</strong>What is this system?</div>
+            <div class="node muted">AGENTS.md / README</div>
+          </div>
+          <div class="row">
+            <div class="node"><strong>Q2</strong>How is it organized?</div>
+            <div class="node muted">ARCHITECTURE.md / module docs</div>
+          </div>
+          <div class="row">
+            <div class="node"><strong>Q3</strong>How do I run it?</div>
+            <div class="node muted">Makefile / setup scripts</div>
+          </div>
+          <div class="row">
+            <div class="node"><strong>Q4</strong>How do I verify it?</div>
+            <div class="node muted">Test + lint + check commands</div>
+          </div>
+          <div class="row">
+            <div class="node"><strong>Q5</strong>Where are we now?</div>
+            <div class="node muted">PROGRESS.md / feature list</div>
+          </div>
+          <div class="result">If a rule isn’t in the repo, the agent can’t see it.</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <span>Agent Harness: Key Takeaways</span>
+      <span>05</span>
+    </div>
+  </div>
+</body>
+</html>

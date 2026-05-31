@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>09 · Task Boundaries &amp; WIP=1</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <style>
+    .content {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 32px;
+      align-items: start;
+    }
+    .callout-tip p {
+      font-size: 24px;
+      line-height: 1.45;
+    }
+    .flow {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .flow-node {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px 18px;
+      font-size: 22px;
+      font-weight: 600;
+      background: var(--soft);
+    }
+    .flow-node.start {
+      background: rgba(37, 95, 133, 0.1);
+      border-color: #255F85;
+    }
+    .flow-node.verify {
+      background: rgba(27, 59, 111, 0.08);
+      border-color: var(--accent);
+    }
+    .flow-node.done {
+      background: rgba(92, 184, 122, 0.1);
+      border-color: #3D9B60;
+    }
+    .flow-arrow {
+      text-align: center;
+      font-size: 22px;
+      color: var(--muted);
+      line-height: 1;
+    }
+    .flow-fail {
+      font-size: 17px;
+      color: #C03221;
+      text-align: right;
+      padding-right: 10px;
+      margin-top: -4px;
+    }
+    .flow-sub {
+      font-size: 18px;
+      color: var(--muted);
+      font-weight: 400;
+      margin-top: 2px;
+    }
+    .definitions {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .def-card {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 20px;
+      background: #fff;
+    }
+    .def-card strong {
+      display: block;
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide">
+    <div>
+      <div class="eyebrow">Concept</div>
+      <h2>Task Boundaries &amp; WIP=1</h2>
+    </div>
+
+    <div class="content">
+      <div>
+        <ul>
+          <li><strong>Overreach:</strong> agent activates more tasks than it can finish — caused by vague scope, not model capability.</li>
+          <li><strong>Under-finish:</strong> code written, tests not passing — completion without evidence.</li>
+          <li><strong>WIP=1</strong> must be enforced by the harness, not left to the agent's self-regulation.</li>
+          <li>Every task requires <strong>executable completion evidence</strong> — "the code looks fine" is not done.</li>
+        </ul>
+        <div class="definitions">
+          <div class="def-card">
+            <strong>Overreach</strong>
+            5 features started,<br>0 passing end-to-end
+          </div>
+          <div class="def-card">
+            <strong>Under-finish</strong>
+            Code written,<br>verification not run
+          </div>
+        </div>
+      </div>
+
+      <div class="diagram">
+        <div class="flow">
+          <div class="flow-node start">Feature Queue
+            <div class="flow-sub">Ordered task list</div>
+          </div>
+          <div class="flow-arrow">↓ pick exactly one</div>
+          <div class="flow-node">Set state → active
+            <div class="flow-sub">Only one task active at a time</div>
+          </div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-node">Agent modifies code</div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-node verify">Harness runs verification
+            <div class="flow-sub">Automated · not self-reported</div>
+          </div>
+          <div class="flow-fail">↺ fail → back to code</div>
+          <div class="flow-arrow">↓ 100% pass</div>
+          <div class="flow-node done">Commit + unlock next task</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>Agent Harness: Key Takeaways</span>
+      <span>09</span>
+    </div>
+  </div>
+</body>
+</html>
