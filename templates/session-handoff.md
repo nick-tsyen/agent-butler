@@ -2,6 +2,7 @@
 
 ## Verified Now
 
+- Latest commit hash:
 - What is currently working:
 - What verification actually ran:
 

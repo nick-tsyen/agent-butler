@@ -15,14 +15,17 @@ These templates are ready to copy into your own project. Each one serves a speci
 
 ## How to Get Started
 
-Copy these four files into your project root first:
+Copy these core files into your project root first:
 
 1. `AGENTS.md` or `CLAUDE.md`
 2. `init.sh`
 3. `claude-progress.md`
-4. `feature_list.json`
+4. `decisions.md`
+5. `feature_list.json`
 
-Add the remaining files as your project grows.
+Run a dedicated initialization phase to produce `READY.md`, then add the remaining files
+(`CONSTRAINTS.md` + `check_boundaries.py`, `sprint-contract.md`, `clean-state-checklist.md`,
+`evaluator-rubric.md`, `quality-document.md`, `session-handoff.md`) as your project grows.
 
 ---
 
@@ -235,3 +238,92 @@ The quality document also supports harness simplification. Every harness compone
 3. Run the benchmark task suite.
 4. Take another snapshot.
 5. Compare — if grades didn't drop, the component was overhead. If they did, restore it.
+
+## decisions.md
+
+A lightweight design-decision log, paired with `claude-progress.md`. Records *why* the code is the
+way it is, so a new session does not reverse or "optimize away" a deliberate choice.
+
+**How to use it:**
+
+- Copy to your project root, next to `claude-progress.md`.
+- Add one entry per significant architectural/design decision — bullet points, not prose.
+- Read it during clock-in, every session.
+
+**Each entry captures:** the decision, the reason, the rejected alternatives (and why), and any
+active constraints that must remain true.
+
+## READY.md
+
+The Startup Readiness Checklist, produced once at the end of a dedicated **initialization phase** (a
+first session that does only setup — no feature code). It lets a brand-new session start with no
+human help.
+
+**How to use it:**
+
+- Generate it when you first scaffold the project; keep it current.
+- It must answer the Four-Condition Rule from repo state alone: can it start? can it test? can it
+  see progress? can it pick up next steps?
+- The bundled **Initialization Acceptance Checklist** is the harness gate — do not begin feature
+  work until every box is checked.
+
+Distinct from `clean-state-checklist.md`: READY.md is the *entry* contract; clean-state gates the
+*end* of each session.
+
+## CONSTRAINTS.md
+
+The architectural-invariants file. Documents the layer boundaries that must hold and points to the
+executable checks that enforce them.
+
+**How to use it:**
+
+- Copy to your project root and define your layering (default: Types → Config → Repository →
+  Service → Runtime → UI, importing only from layers below).
+- Establish boundaries on day one — agents copy whatever patterns already exist, so drift compounds
+  fast without them.
+- Every rule needs a corresponding executable check (see `check_boundaries.py`); a rule that cannot
+  be mechanically broken does not exist. Error messages must follow WHAT / WHY / FIX so failures
+  double as repair instructions.
+
+## check_boundaries.py
+
+A sample executable boundary check. Scans a directory for a forbidden pattern and fails the build
+(exit 1) on violation, printing an agent-oriented WHAT / WHY / FIX message.
+
+**How to use it:**
+
+- Copy to your project root; edit `DIRECTORY`, `FORBIDDEN_PATTERN`, and the WHY/FIX text per
+  constraint.
+- Add one check per constraint in `CONSTRAINTS.md`; wire them into CI and your `make check` path.
+
+## sprint-contract.md
+
+A short contract negotiated **before** coding, between the generating role and the evaluating role.
+The core artifact of *process observability* — it records why a change should be accepted.
+
+**How to use it:**
+
+- Fill in Scope (files to touch), Verification Standards (checkable "done" conditions), and
+  Exclusions (what not to handle) before implementation begins.
+
+---
+
+## Harness Principles & Further Reading
+
+These templates are the copy-into-your-repo artifacts. The reasoning behind them — and the
+cross-cutting practices that are not single files — lives in
+[`docs/harness/harness-engineering-guide.md`](../docs/harness/harness-engineering-guide.md). Key principles:
+
+- **The repo is the single source of truth.** If a rule is not in the repository, it does not exist
+  to the agent. Keep knowledge next to the code it governs; update docs in the same commit as code.
+- **Five-subsystem harness.** Instruction, Tool, Environment, State, Feedback. When an agent fails,
+  attribute the failure to one subsystem and fix that — do not reach for a bigger model first.
+- **Fresh-session test.** A new session, given only the repo, should answer: what is this system,
+  how is it organized, how do I run it, how do I verify it, where are we now?
+- **ACID for agent state.** Atomic commits; verify before committing; isolate concurrent agents on
+  branches/progress files; durable knowledge lives in git-tracked files.
+- **Session continuity.** Past ~60% of the context window, clock out and rebuild from
+  `claude-progress.md` + `decisions.md`. On Sonnet prefer a context reset; on Opus, compaction.
+- **Prune the harness.** Every component encodes an assumption about what the model can't do; as
+  models improve, re-run the disable-and-benchmark check in `quality-document.md` and delete dead
+  scaffolding.
