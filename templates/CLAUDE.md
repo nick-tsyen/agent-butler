@@ -1,8 +1,6 @@
 # CLAUDE.md
 
-You are working in a repository designed for long-running implementation work. Prioritize reliable
-completion, continuity across sessions, and explicit verification over speed. This file is a map,
-not an encyclopedia — read `docs/` on demand for detail.
+You are working in a repository designed for long-running implementation work. Prioritize reliable completion, continuity across sessions, and explicit verification over speed. This file is a directory — read `docs/` on demand for details.
 
 ## Project
 
@@ -62,7 +60,7 @@ work until it passes all three layers.**
 - Core (read/update every session): `feature_list.json`, `claude-progress.md`, `decisions.md`,
   `init.sh`, `quality-document.md`, `clean-state-checklist.md`.
 - Situational: `CONSTRAINTS.md` + `check_boundaries.py` (architecture), `sprint-contract.md` (agree
-  scope before coding), `session-handoff.md` (compact handoff), `READY.md` (initialization phase),
+  scope before coding), `session-handoff.md` (for subagents or after large sessions; ask user's approval before creating the file), `READY.md` (initialization phase),
   `evaluator-rubric.md` (an independent evaluator scores the work — not you).
 - See `Template Guide.md` for how to use each.
 
