@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>P17 · Retry &amp; Token Budget</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../shared/tokens.css">
+<style>
+body {
+  background: var(--bg-light);
+  font-family: var(--f-body);
+  color: var(--ink);
+  padding: 60px 100px 72px;
+  position: relative;
+}
+h1 {
+  font-family: var(--f-disp);
+  font-size: 64px;
+  font-weight: 800;
+  color: var(--ink);
+  margin: 0 0 30px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: start;
+}
+.col-label {
+  font-family: var(--f-mono);
+  font-size: 12px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+.tbl-gap {
+  margin-bottom: 22px;
+}
+.note-block {
+  margin-top: 16px;
+  font-family: var(--f-body);
+  font-size: 20px;
+  color: var(--ink-muted);
+  line-height: 1.5;
+  border-top: 1px solid var(--rule);
+  padding-top: 14px;
+}
+.note-block code {
+  font-size: 0.84em;
+}
+</style>
+</head>
+<body>
+  <div class="accent-bar"></div>
+  <p class="section-label">API &amp; Tool System</p>
+  <h1>Retry &amp; Token Budget</h1>
+
+  <div class="layout">
+    <!-- Left: code block -->
+    <div>
+      <p class="col-label">Retry pseudocode</p>
+      <div class="cb"><span class="cm"># stream_message_with_retry()</span>
+first = <span class="kw">await</span> <span class="fn">stream_message</span>(
+    params.<span class="fn">with_max_tokens</span>(<span class="num">8_192</span>)
+)
+
+<span class="kw">if</span> first.stop_reason == <span class="str">"max_tokens"</span>:
+    <span class="cm"># Escalate on truncation</span>
+    <span class="kw">return await</span> <span class="fn">stream_message</span>(
+        params.<span class="fn">with_max_tokens</span>(<span class="num">65_536</span>)
+    )
+
+<span class="kw">return</span> first</div>
+    </div>
+
+    <!-- Right: two tables -->
+    <div>
+      <p class="col-label">Token budget</p>
+      <div class="tbl-gap">
+        <table class="tbl">
+          <thead>
+            <tr>
+              <th>Parameter</th>
+              <th>Default</th>
+              <th>Env Override</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>First attempt max_tokens</td>
+              <td>8,192</td>
+              <td>&#8212;</td>
+            </tr>
+            <tr>
+              <td>Escalated max_tokens</td>
+              <td>65,536</td>
+              <td>&#8212;</td>
+            </tr>
+            <tr>
+              <td>Context window</td>
+              <td>Model default</td>
+              <td><code>CLAUDE_CODE_MAX_CONTEXT_TOKENS</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="col-label">Auto-compaction triggers</p>
+      <table class="tbl">
+        <thead>
+          <tr>
+            <th>Threshold</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>80% of context window</td>
+            <td>Warning shown to user</td>
+          </tr>
+          <tr>
+            <td>95% of context window</td>
+            <td><code>compaction.py</code> summarises conversation; replaces history with summary</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="note-block">
+        Token estimation without API call: <code>utils/tokens.py</code> (181 lines of heuristic estimation)
+      </div>
+    </div>
+  </div>
+
+  <footer class="slide-footer">
+    <span class="sf-section">API &amp; Tool System</span>
+    <span class="sf-page">17 / 34</span>
+  </footer>
+</body>
+</html>

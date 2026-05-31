@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>P02 · Agenda</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../shared/tokens.css">
+<style>
+body {
+  background: var(--bg-light);
+  font-family: var(--f-body);
+  color: var(--ink);
+  padding: 68px 120px 60px;
+  position: relative;
+}
+h1 {
+  font-family: var(--f-disp);
+  font-size: 64px;
+  font-weight: 800;
+  color: var(--ink);
+  margin: 0 0 40px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+.agenda-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 80px;
+}
+.agenda-item {
+  display: flex;
+  gap: 0;
+  align-items: flex-start;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--rule);
+  position: relative;
+}
+.agenda-item:last-child {
+  border-bottom: none;
+}
+.ghost-n {
+  font-family: var(--f-mono);
+  font-size: 72px;
+  font-weight: 800;
+  color: rgba(24,24,27,0.04);
+  line-height: 1;
+  position: absolute;
+  left: -8px;
+  top: 8px;
+  user-select: none;
+  pointer-events: none;
+}
+.item-body {
+  padding-left: 52px;
+  flex: 1;
+}
+.item-num {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  letter-spacing: 0.10em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.item-title {
+  font-family: var(--f-disp);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 5px;
+  line-height: 1.1;
+}
+.item-sub {
+  font-family: var(--f-body);
+  font-size: 20px;
+  color: var(--ink-muted);
+  line-height: 1.4;
+  margin: 0;
+}
+</style>
+</head>
+<body>
+  <div class="accent-bar"></div>
+  <p class="section-label">Overview</p>
+  <h1>Agenda</h1>
+
+  <div class="agenda-grid">
+    <!-- Column 1 -->
+    <div>
+      <div class="agenda-item">
+        <span class="ghost-n">1</span>
+        <div class="item-body">
+          <p class="item-num">01</p>
+          <p class="item-title">Introduction</p>
+          <p class="item-sub">What it is · Capabilities · Use cases</p>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <span class="ghost-n">2</span>
+        <div class="item-body">
+          <p class="item-num">02</p>
+          <p class="item-title">Architecture</p>
+          <p class="item-sub">Five layers · Tech stack · On-disk layout</p>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <span class="ghost-n">3</span>
+        <div class="item-body">
+          <p class="item-num">03</p>
+          <p class="item-title">Entry Point &amp; Core Loop</p>
+          <p class="item-sub">CLI · Bootstrap · Reason&#8594;Act&#8594;Observe · Batching · Flow</p>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <span class="ghost-n">4</span>
+        <div class="item-body">
+          <p class="item-num">04</p>
+          <p class="item-title">API &amp; Tool System</p>
+          <p class="item-sub">SSE streaming · Retry · Tool abstraction · 16 built-ins · Permissions</p>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <span class="ghost-n">5</span>
+        <div class="item-body">
+          <p class="item-num">05</p>
+          <p class="item-title">Extensions &amp; Integrations</p>
+          <p class="item-sub">MCP · Skills · Sub-agents · How to extend</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Column 2 -->
+    <div>
+      <div class="agenda-item">
+        <span class="ghost-n">6</span>
+        <div class="item-body">
+          <p class="item-num">06</p>
+          <p class="item-title">Platform Services</p>
+          <p class="item-sub">macOS sandbox · Terminal UI · Context management · State</p>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <span class="ghost-n">7</span>
+        <div class="item-body">
+          <p class="item-num">07</p>
+          <p class="item-title">Testing &amp; Dev Guide</p>
+          <p class="item-sub">Test suite · Extension patterns</p>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <span class="ghost-n">8</span>
+        <div class="item-body">
+          <p class="item-num">08</p>
+          <p class="item-title">Design Patterns</p>
+          <p class="item-sub">Key architectural takeaways</p>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <span class="ghost-n">9</span>
+        <div class="item-body">
+          <p class="item-num">09</p>
+          <p class="item-title">Q &amp; A</p>
+          <p class="item-sub">Discussion · Next steps</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="slide-footer">
+    <span class="sf-section">Overview</span>
+    <span class="sf-page">02 / 34</span>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>P12 · Reason - Act - Observe</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../shared/tokens.css">
+<style>
+body {
+  background: var(--bg-light);
+  font-family: var(--f-body);
+  color: var(--ink);
+  padding: 58px 120px 60px;
+  position: relative;
+}
+h1 {
+  font-family: var(--f-disp);
+  font-size: 60px;
+  font-weight: 800;
+  color: var(--ink);
+  margin: 0 0 28px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+.cb {
+  font-size: 19px;
+  line-height: 1.7;
+  padding: 24px 28px;
+}
+.right-col {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.events-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.events-title {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin: 0;
+}
+.tbl td {
+  font-size: 20px;
+  padding: 8px 14px;
+}
+.tbl td:first-child {
+  font-family: var(--f-mono);
+  font-size: 18px;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.rao-labels {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.rao-badge {
+  font-family: var(--f-mono);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 4px;
+}
+.rao-reason { background: rgba(30,64,175,0.1); color: #1E40AF; }
+.rao-act    { background: var(--accent-pale); color: var(--accent); }
+.rao-obs    { background: rgba(21,128,61,0.1); color: var(--green); }
+.turn-note {
+  background: var(--bg-dark);
+  border-radius: 8px;
+  padding: 22px 24px;
+}
+.turn-note-label {
+  font-family: var(--f-mono);
+  font-size: 12px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 10px;
+}
+.turn-note-text {
+  font-family: var(--f-body);
+  font-size: 20px;
+  color: var(--ink-light);
+  line-height: 1.55;
+  margin: 0;
+}
+.batching-note {
+  font-family: var(--f-body);
+  font-size: 20px;
+  color: var(--ink-muted);
+  line-height: 1.5;
+  padding: 18px 0 0;
+  border-top: 1px solid var(--rule);
+}
+</style>
+</head>
+<body>
+  <div class="accent-bar"></div>
+  <p class="section-label">Entry Point &amp; Core Loop</p>
+  <h1>Reason &#8594; Act &#8594; Observe</h1>
+
+  <div class="rao-labels">
+    <span class="rao-badge rao-reason">Reason</span>
+    <span class="rao-badge rao-act">Act</span>
+    <span class="rao-badge rao-obs">Observe</span>
+  </div>
+
+  <div class="layout">
+    <!-- Left: pseudocode -->
+    <div class="cb"><span class="cm"># core/agentic_loop.py</span>
+<span class="kw">async def</span> <span class="fn">query</span>(...) -&gt; AsyncGenerator:
+    <span class="kw">while</span> turn_count &lt; <span class="num">100</span>:
+        <span class="cm"># REASON</span>
+        stream = <span class="kw">await</span> <span class="fn">stream_message_with_retry</span>()
+
+        <span class="kw">if</span> stop_reason != <span class="str">"tool_use"</span>:
+            <span class="kw">yield</span> final_result
+            <span class="kw">break</span>
+
+        <span class="cm"># ACT</span>
+        safe, unsafe = <span class="fn">partition</span>(tools, is_safe)
+        <span class="kw">await</span> asyncio.<span class="fn">gather</span>(
+            *[<span class="fn">run</span>(t) <span class="kw">for</span> t <span class="kw">in</span> safe]
+        )
+        <span class="kw">for</span> t <span class="kw">in</span> unsafe:
+            <span class="kw">await</span> <span class="fn">run</span>(t)
+
+        <span class="cm"># OBSERVE</span>
+        messages.<span class="fn">append</span>(tool_results)
+        turn_count += <span class="num">1</span></div>
+
+    <!-- Right: events table + notes -->
+    <div class="right-col">
+      <div class="events-section">
+        <p class="events-title">Yielded events</p>
+        <table class="tbl">
+          <thead>
+            <tr>
+              <th>Event type</th>
+              <th>When emitted</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>text</td>
+              <td>Streaming text delta from Claude</td>
+            </tr>
+            <tr>
+              <td>tool_use_start</td>
+              <td>Tool card rendered in the TUI</td>
+            </tr>
+            <tr>
+              <td>tool_execution_done</td>
+              <td>Tool results returned to the loop</td>
+            </tr>
+            <tr>
+              <td>result</td>
+              <td>Final message with usage statistics</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="turn-note">
+        <p class="turn-note-label">Turn limit</p>
+        <p class="turn-note-text">Max 100 turns prevents infinite loops. The loop itself is a simple <code style="background:rgba(192,74,26,0.15); color:var(--accent);">while</code>-loop; the complexity lives in batching and permissions.</p>
+      </div>
+
+      <p class="batching-note">
+        <strong>Tool batching:</strong> concurrency-safe tools (read-only, no side effects) run in parallel via <code>asyncio.gather()</code>. Unsafe tools (writes, shell) run serially to preserve determinism.
+      </p>
+    </div>
+  </div>
+
+  <footer class="slide-footer">
+    <span class="sf-section">Entry Point &amp; Core Loop</span>
+    <span class="sf-page">12 / 34</span>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>P33 · Design Patterns &amp; Takeaways</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../shared/tokens.css">
+<style>
+body {
+  background: var(--bg-light);
+  font-family: var(--f-body);
+  color: var(--ink);
+  padding: 48px 88px 60px;
+  position: relative;
+}
+h1 {
+  font-family: var(--f-disp);
+  font-size: 58px;
+  font-weight: 800;
+  color: var(--ink);
+  margin: 0 0 22px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.pcard {
+  background: white;
+  border: 1px solid var(--rule);
+  border-radius: 9px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.pcard-num {
+  font-family: var(--f-mono);
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+.pcard-name {
+  font-family: var(--f-disp);
+  font-size: 21px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.15;
+}
+.pcard-desc {
+  font-family: var(--f-body);
+  font-size: 19px;
+  color: var(--ink-muted);
+  line-height: 1.45;
+  margin: 0;
+}
+/* 7th card spans extra: last row 4 cols but only 3 items, put it centered */
+.grid-row2 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.callout {
+  background: var(--bg-surface);
+  border-radius: 8px;
+  padding: 12px 26px;
+  font-family: var(--f-body);
+  font-size: 20px;
+  color: var(--ink-muted);
+  line-height: 1.5;
+  text-align: center;
+  font-style: italic;
+}
+</style>
+</head>
+<body>
+  <div class="accent-bar"></div>
+  <p class="section-label">Wrap-up</p>
+  <h1>Design Patterns &amp; Takeaways</h1>
+
+  <!-- Row 1: patterns 1-4 -->
+  <div class="grid">
+    <div class="pcard">
+      <span class="pcard-num">01</span>
+      <span class="pcard-name">Async-first</span>
+      <p class="pcard-desc"><code>asyncio</code> is the threading model throughout; <code>asyncio.gather()</code> enables real parallelism for concurrent tool batches.</p>
+    </div>
+    <div class="pcard">
+      <span class="pcard-num">02</span>
+      <span class="pcard-name">Pydantic at every boundary</span>
+      <p class="pcard-desc">All messages, tool results, tasks, skills, and agent definitions are <code>BaseModel</code> subclasses &mdash; validated on entry, serialisable on exit.</p>
+    </div>
+    <div class="pcard">
+      <span class="pcard-num">03</span>
+      <span class="pcard-name">Layered separation of concerns</span>
+      <p class="pcard-desc">Five layers, each with one job; communication is always downward via async generators.</p>
+    </div>
+    <div class="pcard">
+      <span class="pcard-num">04</span>
+      <span class="pcard-name">Generator-based streaming</span>
+      <p class="pcard-desc">API layer, core loop, session controller, and UI communicate via <code>AsyncGenerator</code> &mdash; no shared mutable state between layers.</p>
+    </div>
+  </div>
+
+  <!-- Row 2: patterns 5-7 -->
+  <div class="grid-row2">
+    <div class="pcard">
+      <span class="pcard-num">05</span>
+      <span class="pcard-name">Multi-source config hierarchy</span>
+      <p class="pcard-desc">User &rarr; project &rarr; session; later entries override earlier; predictable, composable semantics.</p>
+    </div>
+    <div class="pcard">
+      <span class="pcard-num">06</span>
+      <span class="pcard-name">Everything is a tool / skill / agent</span>
+      <p class="pcard-desc">New capabilities are added by implementing <code>Tool</code>, dropping a <code>.md</code>, or adding a <code>.json</code>; the core is closed to modification, extensions are open.</p>
+    </div>
+    <div class="pcard">
+      <span class="pcard-num">07</span>
+      <span class="pcard-name">Minimal blast radius</span>
+      <p class="pcard-desc"><code>is_concurrency_safe()</code>, <code>is_read_only()</code>, permission modes, sandbox profiles, and <code>max_turns</code> all independently limit the scope of any single operation.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    These patterns are the design vocabulary of Easy Agent. When in doubt about where to put new code, ask which pattern applies.
+  </div>
+
+  <footer class="slide-footer">
+    <span class="sf-section">Wrap-up</span>
+    <span class="sf-page">33 / 34</span>
+  </footer>
+</body>
+</html>
