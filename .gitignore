@@ -6,4 +6,6 @@ dist/
 .claude
 .venv
 
+.reports
 *.pyc
+references
