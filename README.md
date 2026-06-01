@@ -2,7 +2,15 @@
 
 A terminal-native coding assistant recreating the Claude Code experience with an integrated workspace **Harness Engineering** system. Beyond simple tool execution, Agent Butler transforms your repository into the single source of truth for agent behavior—enforcing WIP=1 focus limits, performing zero-trust verification test checks on exit, and maintaining strict session continuity across context compactions through structured markdown templates.
 
-![Agent Butler Logo](images/logo.png)
+![Agent Butler Logo](assets/logo.png)
+
+---
+
+## Design Principles behind the Agent Butler's Harness
+
+- Click on the image below to view the full PDF.
+
+[![Harness Engineering Presentation](assets/slide-thumbnail.png)](assets/harness-engineering-sharing-nick.pdf)
 
 ## Architecture
 
