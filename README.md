@@ -1,6 +1,6 @@
 # Agent Butler — Python
 
-A Python implementation of coding agent, recreating the Claude Code-style terminal-native agentic experience using Python, Rich, and the Anthropic SDK.
+A terminal-native coding assistant recreating the Claude Code experience with an integrated workspace **Harness Engineering** system. Beyond simple tool execution, Agent Butler transforms your repository into the single source of truth for agent behavior—enforcing WIP=1 focus limits, performing zero-trust verification test checks on exit, and maintaining strict session continuity across context compactions through structured markdown templates.
 
 ## Architecture
 
