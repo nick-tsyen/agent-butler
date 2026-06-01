@@ -536,6 +536,20 @@ Agent Butler stores state in `~/.agent-butler/`:
 
 Per-project settings live in `<cwd>/.agent-butler/settings.json` and override user-scope settings.
 
+## Caveats
+
+**AGENT BUTLER project is:**
+- An open-source recreation project
+- A systems-engineering effort
+- A long-term implementation of a local coding agent
+- A public codebase evolving toward a full Claude Code-class CLI
+
+**AGENT BUTLER is not:**
+- A one-file demo
+- A prompt-only wrapper around an API
+- A finished product today
+- A public mirror of any private course material
+
 ## License
 
 MIT
