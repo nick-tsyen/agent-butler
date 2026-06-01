@@ -315,25 +315,30 @@ Sessions are stored as JSONL files in `~/.agent-butler/projects/` and can be res
 
 ### Harness-Managed Workspaces & Templates
 
-Agent Butler dynamically detects if it is operating inside a **Harness-Managed Workspace** by checking for key files (`feature_list.json`, `CLAUDE.md`, or `AGENTS.md`) in the working directory or its parent folders. 
+Agent Butler dynamically detects if it is operating inside a **Harness-Managed Workspace** by checking for key files (`feature_list.json`, `CLAUDE.md`, or `AGENTS.md`) in the working directory or its parent folders.
 
 When **Harness Mode** is active, Agent Butler switches to repository-tracked governance:
+
 - **Redirection**: Task management tools (`TaskCreate`, `TaskUpdate`, `TaskGet`, `TaskList`) bypass the global task database and read/write directly to the project's local `feature_list.json` file in-place.
 - **WIP=1 Constraint**: Enforces that only one feature can be in the `in_progress` status at a time, preventing split-focus or drive-by refactoring.
 - **Prompt Injection**: Dynamically injects project rules (`CLAUDE.md` / `AGENTS.md`), progress logs (`claude-progress.md` / `PROGRESS.md`), and decisions logs (`decisions.md`) directly into the system prompt.
 - **Exit Gates**: If a feature is marked `passing` during the turn, Agent Butler intercepts loop completion and executes the project's verification test suite. If tests fail, the exit is aborted and the failure details are fed back to the agent to be fixed.
 
 #### Using Workspace Templates
+
 A set of pre-configured templates is available in the root `templates/` directory of the Agent Butler repository. Copy these templates directly into the **root of your target project** to set up a Harness-Managed Workspace.
 
 ##### 1. Core Templates (Get Started First)
+
 Copy these four files into your project root first:
+
 - **`CLAUDE.md` (or `AGENTS.md`)**: The root instruction and rules configuration. Adjust the startup workflow steps and command mappings (Tests, Lint, Type Check, Full verify) to match your stack.
 - **`init.sh`**: The startup and verification script. Edit the install, verify, and start commands at the top. Make it executable (`chmod +x init.sh`).
 - **`claude-progress.md`**: The progress log. Serves as the session-to-session state-tracking log for the agent.
 - **`feature_list.json`**: The machine-readable feature database. Edit it to list your project features, along with their `verification_command` and human-readable verification steps.
 
 ##### 2. Advanced/Situational Templates (Add as your project grows)
+
 - **`READY.md`**: The startup readiness checklist. If `READY.md` is missing from the workspace root on startup, Agent Butler triggers the **Initialization Phase Gate**, forcing the agent to verify the baseline test suite, compile readiness rules, and commit a clean baseline before allowing any feature work.
 - **`decisions.md`**: An architectural decisions log to keep track of active constraints and rejected alternatives.
 - **`CONSTRAINTS.md` & `check_boundaries.py`**: Defensively enforces architectural invariants (e.g. forward-only import flows across layers).
@@ -539,15 +544,14 @@ Per-project settings live in `<cwd>/.agent-butler/settings.json` and override us
 ## Caveats
 
 **AGENT BUTLER project is:**
-- An open-source recreation project
-- A systems-engineering effort
-- A long-term implementation of a local coding agent
-- A public codebase evolving toward a full Claude Code-class CLI
+
+- An open-source ground-up learn-by-implementing project (minimal dependecies)
+- A systems-engineering effort in attempt to implement agent harness
 
 **AGENT BUTLER is not:**
-- A one-file demo
+
 - A prompt-only wrapper around an API
-- A finished product today
+- A finished product nor ready for production
 - A public mirror of any private course material
 
 ## License
