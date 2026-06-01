@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Practical Implementation Map</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+</head>
+<body>
+  <div class="slide">
+    <div class="eyebrow">Hybrid Summary</div>
+    <h2>Practical Implementation Map</h2>
+    <div class="grid-2">
+      <div>
+        <ul>
+          <li>Translate harness concepts into a small set of repo artifacts.</li>
+          <li>Each file answers a specific question a fresh session needs.</li>
+          <li>Keep the map visible so the agent never guesses where to look.</li>
+        </ul>
+      </div>
+      <div class="diagram">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>File</th>
+              <th>Role in the Harness</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>AGENTS.md / CLAUDE.md</strong></td>
+              <td>Entry map, rules, verification hierarchy.</td>
+            </tr>
+            <tr>
+              <td><strong>READY.md</strong></td>
+              <td>Initialization deliverables + start/test commands.</td>
+            </tr>
+            <tr>
+              <td><strong>FEATURE_LIST</strong></td>
+              <td>Scope state machine with verification gating.</td>
+            </tr>
+            <tr>
+              <td><strong>PROGRESS.md / DECISIONS.md</strong></td>
+              <td>Session continuity, blockers, and rationale.</td>
+            </tr>
+            <tr>
+              <td><strong>QUALITY.md</strong></td>
+              <td>Long-term hygiene and module readiness scores.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="footer">
+      <span>Agent Harness: Key Takeaways</span>
+      <span>19</span>
+    </div>
+  </div>
+</body>
+</html>

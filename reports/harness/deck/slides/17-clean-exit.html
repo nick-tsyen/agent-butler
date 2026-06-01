@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Clean Exit Checklist</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <style>
+    .card-title {
+      font-size: 18px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .checklist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 12px;
+      font-size: 24px;
+    }
+    .check-item {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 10px;
+      align-items: start;
+    }
+    .check-item span {
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      font-size: 18px;
+      letter-spacing: 0.08em;
+    }
+    .callout-warning {
+      font-size: 22px;
+      line-height: 1.45;
+      margin-top: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide">
+    <div class="eyebrow">Concept</div>
+    <h2>Clean Exit Checklist</h2>
+    <div class="grid-2">
+      <div>
+        <ul>
+          <li>Session completion requires a clean state, not just working code.</li>
+          <li>Five dimensions gate handoff readiness across build, tests, and docs.</li>
+          <li>Any miss means fix or roll back before the next session starts.</li>
+        </ul>
+        <div class="callout-warning">⚠️ End-of-session entropy drives drift. Agents copy the mess they inherit.</div>
+      </div>
+      <div class="diagram">
+        <div class="card">
+          <div class="card-title">Exit Checklist (5 Dimensions)</div>
+          <div class="checklist">
+            <div class="check-item"><span>Build</span>Run the full build pipeline.</div>
+            <div class="check-item"><span>Tests</span>Execute the complete test suite.</div>
+            <div class="check-item"><span>Progress</span>Update feature list and handoff artifacts.</div>
+            <div class="check-item"><span>Hygiene</span>Remove debug logs, TODOs, and temp files.</div>
+            <div class="check-item"><span>Startup</span>Verify the standard dev start path.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <span>Agent Harness: Key Takeaways</span>
+      <span>17</span>
+    </div>
+  </div>
+</body>
+</html>

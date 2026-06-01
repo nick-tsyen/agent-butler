@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>15 · Session Continuity</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<style>
+.content {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 30px;
+  align-items: start;
+}
+.flow {
+  display: grid;
+  grid-template-columns: 1fr 0.35fr 1.2fr 0.35fr 1fr;
+  gap: 10px;
+  align-items: center;
+}
+.flow .box {
+  border: 1px solid var(--line);
+  background: var(--soft);
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-size: 21px;
+}
+.flow .box strong {
+  display: block;
+  margin-bottom: 6px;
+}
+.flow .arrow {
+  text-align: center;
+  color: var(--muted);
+  font-size: 26px;
+}
+.flow ul {
+  font-size: 20px;
+  padding-left: 20px;
+}
+</style>
+</head>
+<body>
+  <div class="slide">
+    <div>
+      <div class="eyebrow">Shift‑engineer model</div>
+      <h2>Session Continuity</h2>
+    </div>
+
+    <div class="content">
+      <div>
+        <ul>
+          <li>Clock‑in and clock‑out routines rebuild state every session.</li>
+          <li>Persist progress, decisions, and verification notes in the repo.</li>
+          <li>Prepare handoff before the 60% context threshold to avoid drift.</li>
+        </ul>
+      </div>
+
+      <div class="diagram">
+        <div class="flow">
+          <div class="box">
+            <strong>Session 1</strong>
+            Implement &amp; verify
+          </div>
+          <div class="arrow">→</div>
+          <div class="box">
+            <strong>Persistence files</strong>
+            <ul>
+              <li>PROGRESS.md</li>
+              <li>DECISIONS.md</li>
+              <li>Verification notes</li>
+              <li>Git checkpoint</li>
+            </ul>
+          </div>
+          <div class="arrow">→</div>
+          <div class="box">
+            <strong>Session 2</strong>
+            Rebuild &amp; continue
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>Agent Harness</span>
+      <span>15</span>
+    </div>
+  </div>
+</body>
+</html>

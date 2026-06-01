@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Immediate ROI: Feedback First</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <style>
+    pre {
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px 20px;
+      font-size: 22px;
+      line-height: 1.5;
+      font-family: "IBM Plex Mono", "SFMono-Regular", Menlo, monospace;
+      white-space: pre-wrap;
+    }
+    .badge-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide">
+    <div class="eyebrow">Practice</div>
+    <h2>Immediate ROI: Feedback First</h2>
+    <div class="grid-2">
+      <div>
+        <ul>
+          <li>Highest ROI harness upgrade: explicit verification commands.</li>
+          <li>Prevents premature victory on broken code.</li>
+          <li>Put the block in AGENTS/CLAUDE.md at the top.</li>
+        </ul>
+      </div>
+      <div class="diagram">
+        <div class="badge-row">
+          <span class="badge">Verification Commands</span>
+          <span class="badge">Example</span>
+        </div>
+        <pre>Tests: pytest tests/ -x
+Type check: mypy src/ --strict
+Lint: ruff check src/
+Full verification: make check</pre>
+      </div>
+    </div>
+    <div class="footer">
+      <span>Agent Harness: Key Takeaways</span>
+      <span>04</span>
+    </div>
+  </div>
+</body>
+</html>

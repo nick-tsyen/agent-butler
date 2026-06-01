@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Five-Subsystem Harness Model</title>
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <style>
+    .subsystem-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 22px;
+    }
+    .subsystem-table th,
+    .subsystem-table td {
+      border: 1px solid var(--line);
+      padding: 14px 16px;
+      vertical-align: top;
+    }
+    .subsystem-table th {
+      background: var(--highlight);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 16px;
+      color: var(--muted);
+    }
+    .subsystem-table td strong {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide">
+    <div class="eyebrow">Concept</div>
+    <h2>Five-Subsystem Harness Model</h2>
+    <div class="grid-2">
+      <div>
+        <ul>
+          <li>Instruction, Tools, Environment, State, Feedback.</li>
+          <li>Remove one subsystem and the harness becomes incomplete.</li>
+          <li>Use the model to diagnose where failures really happen.</li>
+        </ul>
+      </div>
+      <div class="diagram">
+        <table class="subsystem-table">
+          <tr>
+            <th>Subsystem</th>
+            <th>Purpose</th>
+          </tr>
+          <tr>
+            <td><strong>Instruction</strong>Project map, hard constraints</td>
+            <td>AGENTS/CLAUDE.md, high-level architecture</td>
+          </tr>
+          <tr>
+            <td><strong>Tools</strong>Shell + repo access</td>
+            <td>Safe execution, least-privilege tooling</td>
+          </tr>
+          <tr>
+            <td><strong>Environment</strong>Reproducible runtime</td>
+            <td>Locked dependencies, setup scripts</td>
+          </tr>
+          <tr>
+            <td><strong>State</strong>Long-task memory</td>
+            <td>PROGRESS.md, decisions, checkpoints</td>
+          </tr>
+          <tr>
+            <td><strong>Feedback</strong>Verification loop</td>
+            <td>Tests, lint, typecheck, full pipeline</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="footer">
+      <span>Agent Harness: Key Takeaways</span>
+      <span>03</span>
+    </div>
+  </div>
+</body>
+</html>

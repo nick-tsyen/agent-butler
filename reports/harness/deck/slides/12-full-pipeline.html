@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>12 · Full Pipeline or It Didn’t Happen</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<style>
+.content {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 32px;
+  align-items: start;
+}
+.pipeline {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.pipeline .stage {
+  border: 1px solid var(--line);
+  background: var(--soft);
+  border-radius: 14px;
+  padding: 16px 20px;
+  font-size: 24px;
+  font-weight: 600;
+}
+.pipeline .stage.critical {
+  background: rgba(27, 59, 111, 0.1);
+  border-color: var(--accent);
+}
+.pipeline .arrow {
+  text-align: center;
+  color: var(--muted);
+  font-size: 26px;
+}
+</style>
+</head>
+<body>
+  <div class="slide">
+    <div>
+      <div class="eyebrow">Verification hierarchy</div>
+      <h2>Full Pipeline or It Didn’t Happen</h2>
+    </div>
+
+    <div class="content">
+      <div>
+        <ul>
+          <li>Unit tests confirm components, not cross‑component behavior.</li>
+          <li>Any boundary‑crossing change must pass integration and E2E runs.</li>
+          <li>Architectural rules only count when enforced as executable checks.</li>
+        </ul>
+      </div>
+
+      <div class="diagram">
+        <div class="pipeline">
+          <div class="stage">Unit checks</div>
+          <div class="arrow">↓</div>
+          <div class="stage">Integration tests</div>
+          <div class="arrow">↓</div>
+          <div class="stage critical">End‑to‑end pipeline</div>
+          <div class="arrow">↓</div>
+          <div class="stage">System validation</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>Agent Harness</span>
+      <span>12</span>
+    </div>
+  </div>
+</body>
+</html>
