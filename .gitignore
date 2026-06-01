@@ -6,8 +6,12 @@ dist/
 .claude
 .venv
 
-.reports
+reports/
 *.pyc
 references
 .understand-anything
 .worktrees/
+notebooks/
+docs
+.pytest_cache
+.antigravitycli
